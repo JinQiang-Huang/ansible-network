@@ -1,0 +1,46 @@
+----------FW----------
+hostname DEFAULT
+domain-name cisco.com
+
+username cisco password cisco123! privilege 15
+crypto key generate rsa modulus 2048
+
+ssh version 2
+ssh 0.0.0.0 0.0.0.0 inside
+ssh key-exchange group dh-group14-sha1
+
+aaa authentication ssh console LOCAL
+aaa authorization exec LOCAL auto-enable
+
+控制端主机需要修改DH算法：（当Linux连接fw时如果报算法错误，需要修改）
+vim /etc/ssh/ssh_config
+  KexAlgorithms diffie-hellman-group14-sha1
+
+----------IOS/SW----------
+hostname DEFAULT
+ip domain-name cisco.com
+
+username cisco privilege 15 password cisco123!
+crypto key generate rsa modulus 2048
+ip ssh version 2 
+
+aaa new-model
+aaa authentication login default local
+aaa authorization exec default local 
+
+line vty 0 4
+  login authentication default
+  authorization exec default 
+  transport input ssh
+
+---------test result----------
+ansible fw -m ping
+ansible ios -m ping
+ansible sw -m ping
+
+
+
+
+
+
+

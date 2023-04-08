@@ -1,0 +1,18 @@
+- hosts: fw
+  gather_facts: false
+  tasks:
+    - name: hostname 
+      asa_config:
+        lines:
+          - hostname "{{hostname}}"
+      changed_when: false
+
+    - asa_command:
+        commands:
+          - show run hostname 
+      register: result
+      changed_when: false
+
+    - debug:
+        var: result
+      changed_when: false

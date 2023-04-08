@@ -1,0 +1,17 @@
+[sw]
+sw1 ansible_host=192.168.10.1
+
+[sw:vars]
+hostname="SW"
+
+[ios]
+ios1 ansible_host=192.168.10.2
+
+[ios:vars]
+hostname="IOS"
+
+[fw]
+fw1 ansible_host=192.168.10.3
+
+[fw:vars]
+hostname="FW"

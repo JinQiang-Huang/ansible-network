@@ -1,0 +1,18 @@
+- hosts: ios
+  gather_facts: no
+  tasks:
+    - name: hostname 
+      ios_config:
+        lines:
+          - hostname {{hostname}}
+      changed_when: false
+
+    - ios_command:
+        commands:
+          - show run | sec hostname 
+      register: result
+      changed_when: false
+
+    - debug:
+        var: result
+      changed_when: false
